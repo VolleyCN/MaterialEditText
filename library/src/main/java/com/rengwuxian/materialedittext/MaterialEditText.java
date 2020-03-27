@@ -1315,7 +1315,7 @@ public class MaterialEditText extends AppCompatEditText {
       lineStartY += bottomSpacing;
       if (!isInternalValid()) { // not valid
         paint.setColor(errorColor);
-        canvas.drawRect(startX, lineStartY, endX, lineStartY + getPixel(2), paint);
+        canvas.drawRect(startX, lineStartY, endX, lineStartY + getPixel(1), paint);
       } else if (!isEnabled()) { // disabled
         paint.setColor(underlineColor != -1 ? underlineColor : baseColor & 0x00ffffff | 0x44000000);
         float interval = getPixel(1);
@@ -1324,7 +1324,7 @@ public class MaterialEditText extends AppCompatEditText {
         }
       } else if (hasFocus()) { // focused
         paint.setColor(primaryColor);
-        canvas.drawRect(startX, lineStartY, endX, lineStartY + getPixel(2), paint);
+        canvas.drawRect(startX, lineStartY, endX, lineStartY + getPixel(1), paint);
       } else { // normal
         paint.setColor(underlineColor != -1 ? underlineColor : baseColor & 0x00ffffff | 0x1E000000);
         canvas.drawRect(startX, lineStartY, endX, lineStartY + getPixel(1), paint);
