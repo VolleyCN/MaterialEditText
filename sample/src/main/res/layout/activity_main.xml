@@ -11,6 +11,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Library Name"
+            android:text="MaterialEditText"
+            android:textColor="#3b3b50"
+            android:textColorHint="#b5b5c4"
+            android:textCursorDrawable="@drawable/text_cursor_cyan"
+            android:textSize="14sp"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelPadding="13dp"
+            app:met_floatingLabelText="手机号/用户名"
+            app:met_floatingLabelTextColor="#3b3b50"
+            app:met_floatingLabelTextSize="11sp"
+            app:met_primaryColor="#5544e3"
+            app:met_singleLineEllipsis="true"
+            app:met_underlineColor="#f5f5fb" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,21 +38,6 @@
             android:paddingTop="16dp"
             android:paddingRight="16dp"
             android:paddingBottom="16dp">
-
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Library Name"
-                android:text="MaterialEditText"
-                android:textCursorDrawable="@drawable/text_cursor_cyan"
-                android:textSize="34sp"
-                app:met_floatingLabel="highlight"
-                app:met_maxCharacters="20"
-                app:met_floatingLabelTextColor="#9090A2"
-                app:met_floatingLabelTextSize="11sp"
-                app:met_floatingLabelText="asdasdasdas"
-                app:met_primaryColor="?colorAccent"
-                app:met_singleLineEllipsis="true" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="match_parent"
@@ -333,8 +336,8 @@
                 app:met_errorColor="#ddaa00"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelTextColor="#8805ad"
-                app:met_helperTextAlwaysShown="false"
                 app:met_helperText="Helper Text"
+                app:met_helperTextAlwaysShown="false"
                 app:met_helperTextColor="#795548"
                 app:met_maxCharacters="5"
                 app:met_primaryColor="#2196F3"
