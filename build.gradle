@@ -9,10 +9,6 @@ buildscript {
     }
 }
 
-def isReleaseBuild() {
-    return version.contains("SNAPSHOT") == false
-}
-
 allprojects {
     version = VERSION_NAME
     group = GROUP
@@ -20,6 +16,5 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://oss.sonatype.org/content/groups/public' }
     }
 }
