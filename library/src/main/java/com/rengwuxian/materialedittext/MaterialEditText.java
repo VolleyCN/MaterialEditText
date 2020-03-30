@@ -27,7 +27,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.TransformationMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -99,6 +98,7 @@ public class MaterialEditText extends AppCompatEditText {
      */
     private int floatingLabelPadding;
 
+    private int underlinePadding;
     /**
      * the spacing between the main text and the bottom components (bottom ellipsis, helper/error text, characters counter).
      */
@@ -400,6 +400,7 @@ public class MaterialEditText extends AppCompatEditText {
             floatingLabelText = getHint();
         }
         floatingLabelPadding = typedArray.getDimensionPixelSize(R.styleable.MaterialEditText_met_floatingLabelPadding, bottomSpacing);
+        underlinePadding = typedArray.getDimensionPixelSize(R.styleable.MaterialEditText_met_underlinePadding, underlinePadding);
         floatingLabelTextSize = typedArray.getDimensionPixelSize(R.styleable.MaterialEditText_met_floatingLabelTextSize, getResources().getDimensionPixelSize(R.dimen.floating_label_text_size));
         floatingLabelTextColor = typedArray.getColor(R.styleable.MaterialEditText_met_floatingLabelTextColor, -1);
         floatingLabelAnimating = typedArray.getBoolean(R.styleable.MaterialEditText_met_floatingLabelAnimating, true);
@@ -546,8 +547,9 @@ public class MaterialEditText extends AppCompatEditText {
     }
 
     private Bitmap[] generateIconBitmaps(Drawable drawable) {
-        if (drawable == null)
+        if (drawable == null) {
             return null;
+        }
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -1316,7 +1318,7 @@ public class MaterialEditText extends AppCompatEditText {
         if (!hideUnderline) {
             int lineStartX = getScrollX() + (iconLeftBitmaps == null ? 0 : (iconOuterWidth + iconPadding));
             int lineEndX = getScrollX() + (iconRightBitmaps == null ? getWidth() : getWidth() - iconOuterWidth - iconPadding);
-            lineStartY += bottomSpacing;
+            lineStartY += bottomSpacing + underlinePadding;
             if (!isInternalValid()) { // not validf
                 paint.setColor(errorColor);
                 canvas.drawRect(lineStartX, lineStartY, lineEndX, lineStartY + getPixel(1), paint);
