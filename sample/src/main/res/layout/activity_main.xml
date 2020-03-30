@@ -15,6 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Library Name"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
             android:text="MaterialEditText"
             android:textColor="#3b3b50"
             android:textColorHint="#b5b5c4"
