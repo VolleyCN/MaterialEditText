@@ -1364,6 +1364,8 @@ public class MaterialEditText extends AppCompatEditText {
 
         // draw the floating label
         if (floatingLabelEnabled && !TextUtils.isEmpty(floatingLabelText)) {
+            int fStartX = getScrollX() + (iconLeftBitmaps == null ? 0 : (iconOuterWidth + iconPadding));
+            int fEndX = getScrollX() + (iconRightBitmaps == null ? getWidth() : getWidth() - iconOuterWidth - iconPadding);
             textPaint.setTextSize(floatingLabelTextSize);
             // calculate the text color
             textPaint.setColor((Integer) focusEvaluator.evaluate(focusFraction * (isEnabled() ? 1 : 0), floatingLabelTextColor != -1 ? floatingLabelTextColor : (baseColor & 0x00ffffff | 0x44000000), primaryColor));
@@ -1371,13 +1373,12 @@ public class MaterialEditText extends AppCompatEditText {
             float floatingLabelWidth = textPaint.measureText(floatingLabelText.toString());
             int floatingLabelStartX;
             if ((getGravity() & Gravity.RIGHT) == Gravity.RIGHT || isRTL()) {
-                floatingLabelStartX = (int) (endX - floatingLabelWidth);
+                floatingLabelStartX = (int) (fEndX - floatingLabelWidth);
             } else if ((getGravity() & Gravity.LEFT) == Gravity.LEFT) {
-                floatingLabelStartX = startX;
+                floatingLabelStartX = fStartX;
             } else {
-                floatingLabelStartX = startX + (int) (getInnerPaddingLeft() + (getWidth() - getInnerPaddingLeft() - getInnerPaddingRight() - floatingLabelWidth) / 2);
+                floatingLabelStartX = fStartX + (int) (getInnerPaddingLeft() + (getWidth() - getInnerPaddingLeft() - getInnerPaddingRight() - floatingLabelWidth) / 2);
             }
-
             // calculate the vertical position
             int distance = floatingLabelPadding;
             int floatingLabelStartY = (int) (innerPaddingTop + floatingLabelTextSize + floatingLabelPadding - distance * (floatingLabelAlwaysShown ? 1 : floatingLabelFraction) + getScrollY());
