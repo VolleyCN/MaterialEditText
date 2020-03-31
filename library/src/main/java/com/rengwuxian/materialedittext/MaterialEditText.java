@@ -27,6 +27,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.TransformationMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -782,14 +783,7 @@ public class MaterialEditText extends AppCompatEditText {
      * Set paddings to the correct values
      */
     private void correctPaddings() {
-        int buttonsWidthLeft = 0, buttonsWidthRight = 0;
-        int buttonsWidth = iconOuterWidth * getButtonsCount();
-        if (isRTL()) {
-            buttonsWidthLeft = buttonsWidth;
-        } else {
-            buttonsWidthRight = buttonsWidth;
-        }
-        super.setPadding(innerPaddingLeft + extraPaddingLeft + buttonsWidthLeft, innerPaddingTop + extraPaddingTop, innerPaddingRight + extraPaddingRight + buttonsWidthRight, innerPaddingBottom + extraPaddingBottom);
+        super.setPadding(innerPaddingLeft + extraPaddingLeft, innerPaddingTop + extraPaddingTop, innerPaddingRight + extraPaddingRight, innerPaddingBottom + extraPaddingBottom);
     }
 
     private int getButtonsCount() {
@@ -1283,7 +1277,7 @@ public class MaterialEditText extends AppCompatEditText {
         int startX = getScrollX() + (iconLeftBitmaps == null ? 0 : (iconOuterWidth + iconPadding)) + getPaddingLeft();
         int endX = getScrollX() + (iconRightBitmaps == null ? getWidth() : getWidth() - iconOuterWidth - iconPadding) - getPaddingRight();
         int lineStartY = getScrollY() + getHeight() - getPaddingBottom();
-
+        Log.e("getPaddingRight:", getPaddingRight() + "_______" + iconOuterWidth + "_____" + iconPadding);
         // draw the icon(s)
         paint.setAlpha(255);
         if (iconLeftBitmaps != null) {
