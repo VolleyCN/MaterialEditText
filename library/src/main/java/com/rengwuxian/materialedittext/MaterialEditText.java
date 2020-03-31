@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -290,6 +291,8 @@ public class MaterialEditText extends AppCompatEditText {
      */
     private Bitmap[] clearButtonBitmaps;
 
+    private int clearButtonSize;
+
     /**
      * Auto validate when focus lost.
      */
@@ -412,7 +415,8 @@ public class MaterialEditText extends AppCompatEditText {
         iconLeftBitmaps = generateIconBitmaps(typedArray.getResourceId(R.styleable.MaterialEditText_met_iconLeft, -1));
         iconRightBitmaps = generateIconBitmaps(typedArray.getResourceId(R.styleable.MaterialEditText_met_iconRight, -1));
         showClearButton = typedArray.getBoolean(R.styleable.MaterialEditText_met_clearButton, false);
-        clearButtonBitmaps = generateIconBitmaps(R.drawable.met_ic_clear);
+        clearButtonBitmaps = generateIconBitmaps(typedArray.getResourceId(R.styleable.MaterialEditText_met_iconClear, R.drawable.met_ic_clear));
+        clearButtonSize = typedArray.getDimensionPixelSize(R.styleable.MaterialEditText_met_clearButtonSize, 0);
         iconPadding = typedArray.getDimensionPixelSize(R.styleable.MaterialEditText_met_iconPadding, getPixel(16));
         floatingLabelAlwaysShown = typedArray.getBoolean(R.styleable.MaterialEditText_met_floatingLabelAlwaysShown, false);
         helperTextAlwaysShown = typedArray.getBoolean(R.styleable.MaterialEditText_met_helperTextAlwaysShown, false);
@@ -1273,7 +1277,6 @@ public class MaterialEditText extends AppCompatEditText {
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
-
         int startX = getScrollX() + (iconLeftBitmaps == null ? 0 : (iconOuterWidth + iconPadding)) + getPaddingLeft();
         int endX = getScrollX() + (iconRightBitmaps == null ? getWidth() : getWidth() - iconOuterWidth - iconPadding) - getPaddingRight();
         int lineStartY = getScrollY() + getHeight() - getPaddingBottom();
@@ -1297,13 +1300,15 @@ public class MaterialEditText extends AppCompatEditText {
         if (hasFocus() && showClearButton && !TextUtils.isEmpty(getText()) && isEnabled()) {
             paint.setAlpha(255);
             int buttonLeft;
+            Bitmap clearButtonBitmap = clearButtonBitmaps[0];
+            if (clearButtonSize > 0) {
+                clearButtonBitmap = resizeBitmap(clearButtonBitmap, clearButtonSize, clearButtonSize);
+            }
             if (isRTL()) {
                 buttonLeft = startX;
             } else {
-                buttonLeft = endX - iconOuterWidth;
+                buttonLeft = endX - clearButtonBitmap.getWidth();
             }
-            Bitmap clearButtonBitmap = clearButtonBitmaps[0];
-            buttonLeft += (iconOuterWidth - clearButtonBitmap.getWidth()) / 2;
             int iconTop = lineStartY + bottomSpacing - iconOuterHeight + (iconOuterHeight - clearButtonBitmap.getHeight()) / 2;
             canvas.drawBitmap(clearButtonBitmap, buttonLeft, iconTop, paint);
         }
@@ -1406,6 +1411,20 @@ public class MaterialEditText extends AppCompatEditText {
 
         // draw the original things
         super.onDraw(canvas);
+    }
+
+    public Bitmap resizeBitmap(Bitmap bitmap, int w, int h) {
+        Bitmap BitmapOrg = bitmap;
+        int width = BitmapOrg.getWidth();
+        int height = BitmapOrg.getHeight();
+        int newWidth = w;
+        int newHeight = h;
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width, height, matrix, true);
+        return resizedBitmap;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
