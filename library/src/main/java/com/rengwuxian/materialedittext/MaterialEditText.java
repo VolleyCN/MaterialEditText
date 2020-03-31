@@ -28,7 +28,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.TransformationMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -1275,12 +1274,16 @@ public class MaterialEditText extends AppCompatEditText {
         return bottomLinesAnimator;
     }
 
+    private int clearButtonX;
+    private int clearButtonY;
+    private int clearButtonH;
+    private int clearButtonW;
+
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         int startX = getScrollX() + (iconLeftBitmaps == null ? 0 : (iconOuterWidth + iconPadding)) + getPaddingLeft();
         int endX = getScrollX() + (iconRightBitmaps == null ? getWidth() : getWidth() - iconOuterWidth - iconPadding) - getPaddingRight();
         int lineStartY = getScrollY() + getHeight() - getPaddingBottom();
-        Log.e("getPaddingRight:", getPaddingRight() + "_______" + iconOuterWidth + "_____" + iconPadding);
         // draw the icon(s)
         paint.setAlpha(255);
         if (iconLeftBitmaps != null) {
@@ -1310,6 +1313,10 @@ public class MaterialEditText extends AppCompatEditText {
                 buttonLeft = endX - clearButtonBitmap.getWidth();
             }
             int iconTop = lineStartY + bottomSpacing - iconOuterHeight + (iconOuterHeight - clearButtonBitmap.getHeight()) / 2;
+            clearButtonX = buttonLeft;
+            clearButtonY = iconTop;
+            clearButtonH = clearButtonBitmap.getHeight();
+            clearButtonW = clearButtonBitmap.getWidth();
             canvas.drawBitmap(clearButtonBitmap, buttonLeft, iconTop, paint);
         }
 
@@ -1529,16 +1536,9 @@ public class MaterialEditText extends AppCompatEditText {
     private boolean insideClearButton(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
-        int startX = getScrollX() + (iconLeftBitmaps == null ? 0 : (iconOuterWidth + iconPadding));
-        int endX = getScrollX() + (iconRightBitmaps == null ? getWidth() : getWidth() - iconOuterWidth - iconPadding);
-        int buttonLeft;
-        if (isRTL()) {
-            buttonLeft = startX;
-        } else {
-            buttonLeft = endX - iconOuterWidth;
-        }
-        int buttonTop = getScrollY() + getHeight() - getPaddingBottom() + bottomSpacing - iconOuterHeight;
-        return (x >= buttonLeft && x < buttonLeft + iconOuterWidth && y >= buttonTop && y < buttonTop + iconOuterHeight);
+        int buttonLeft = clearButtonX;
+        int buttonTop = clearButtonY;
+        return (x >= buttonLeft && x < buttonLeft + clearButtonW && y >= buttonTop && y < buttonTop + clearButtonH);
     }
 
     private int checkLength(CharSequence text) {
